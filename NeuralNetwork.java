@@ -1,10 +1,12 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.StringTokenizer;
+
 public class NeuralNetwork{ 
     
     static Layer[] layers;
     static TrainingData[] tDataSet; 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException,IOException {
         Neuron.setRangeWeight(-1,1); 
         layers = new Layer[3];
     	layers[0] = null; // Input Layer 0,6
@@ -39,55 +41,129 @@ public class NeuralNetwork{
             System.out.println();
         }
     }
-    public static void CreateTrainingData() {
-        Scanner myObj = new Scanner(System.in);
-        float[][] input= new float[2][6];  
-        float[][] output= new float[2][2];
-        for(int i=0;i<2;i++) 
-        {   
-            for(int j=0;j<6;j++) 
-            {   
-                input[i][j]=(float)myObj.nextDouble();
-            }
-        } 
-        // for(int i=0;i<2;i++) 
-        // {   
-        //     for(int j=0;j<6;j++) 
-        //     {   
-        //         System.out.print(input[i][j]); 
-        //         System.out.print(" ");
-        //     } 
-        //     System.out.println();
-        // } 
-        // float[] input1=new float[]{(float)36.5,1,0,0,1,0};
-        // float[] input2=new float[]{(float)36.0,0,0,1,0,1};
-        // float[] input3=new float[]{(float)37.0,0,1,0,1,0};
-        // float[] input4=new float[]{(float)37.5,1,1,0,1,0}; 
+    public static void CreateTrainingData() throws IOException {
+        float[][] input= new float[120][6];  
+        float[][] output= new float[120][2];
+       //---------------File handling----------------------------
+       FileReader file=new FileReader("C:\\Users\\snigd\\Desktop\\docs\\NeuralNetwork\\input.txt"); 
+       BufferedReader bf= new BufferedReader(file); 
+       
+       String st=bf.readLine(); 
+       int i=0; 
+       while(st!=null){   
+           
+           StringTokenizer stn= new StringTokenizer(st);
+           Double i0=Double.parseDouble(stn.nextToken()); 
+           String str2=stn.nextToken();
+           int i1; 
+           if(str2.equals("yes")) 
+           { 
+             i1=1;
+           } 
+           else 
+           {    
+             i1=0;
+           }
 
-        // float[] expectedOutput1=new float[]{1,0}; 
-        // float[] expectedOutput2=new float[]{0,0}; 
-        // float[] expectedOutput3=new float[]{1,1}; 
-        // float[] expectedOutput4=new float[]{0,1};
+           String str3=stn.nextToken();
+           int i2; 
+           if(str3.equals("yes")) 
+           {
+             i2=1;
+           } 
+           else 
+           {    
+             i2=0;
+           }
+           String str4=stn.nextToken(); 
+           Double i3=0.00; 
+           if(str4.equals("yes")) 
+           {
+             i3+=1.00;
+           }
+           String str5=stn.nextToken();
+           Double i4=0.00; 
+           if(str5.equals("yes")) 
+           {
+             i4+=1.00;
+           }
+           String str6=stn.nextToken(); 
+           Double i5=0.00; 
+           if(str6.equals("yes")) 
+           {
+             i5+=1.00; 
+           }
+           String str7=stn.nextToken(); 
+           Double i6; 
+           if(str7.equals("yes")) 
+           { 
+             i6=1.00; 
+           } 
+           else 
+           {    
+             i6=0.00;
+           }
+           String str8=stn.nextToken(); 
+           Double i7; 
+           if(str8.equals("yes")) 
+           {
+             i7=(Double)1.00;
+           }
+           else 
+           {    
+             i7=0.00;
+           } 
+           
+
+        //    System.out.println("Reading from file");
+        // System.out.println(i0+" "+str2+" "+str3+" "+str4+" "+str5+" "+str6);
+        // System.out.println(i0+" "+i1+" "+i2+" "+i3+" "+i4+" "+i5); 
+        input[i][0]=i0.floatValue(); 
+        input[i][1]=i1; 
+        input[i][2]=i2; 
+        input[i][3]=i3.floatValue(); 
+        input[i][4]=i4.floatValue(); 
+        input[i][5]=i5.floatValue(); 
         
-        // tDataSet = new TrainingData[4];
-        // tDataSet[0] = new TrainingData(input1, expectedOutput1);
-        // tDataSet[1] = new TrainingData(input2, expectedOutput2);
-        // tDataSet[2] = new TrainingData(input3, expectedOutput3);
-        // tDataSet[3] = new TrainingData(input4, expectedOutput4);        
+        output[i][0]=i6.floatValue(); 
+        output[i][1]=i7.floatValue();
 
-        for(int i=0;i<2;i++) 
-        {   
-            for(int j=0;j<2;j++) 
-            {   
-                output[i][j]=(float)myObj.nextDouble();
-            }
-        }
- 
-        tDataSet = new TrainingData[2];
-        for(int i=0;i<2;i++)
+        st=bf.readLine();
+        i++;
+       }	
+       
+    //    //For Input
+    //     for(int i=0;i<2;i++) 
+    //     {   
+    //         for(int j=0;j<6;j++) 
+    //         {   
+    //             input[i][j]=(float)myObj.nextDouble();
+    //         }
+    //     } 
+
+        
+    //     //Expected Output
+    //     for(int i=0;i<2;i++) 
+    //     {   
+    //         for(int j=0;j<2;j++) 
+    //         {   
+    //             output[i][j]=(float)myObj.nextDouble();
+    //         }
+    //     }
+    //     //-----------------------------------------------------------
+        
+    
+    // for( i=0;i<120;i++) 
+    // {   
+    //     System.out.println(input[i][0]+" "+input[i][1]+" "+input[i][2]+" "+input[i][3]+" "+input[i][4]+" "+input[i][5]); 
+    // }
+        tDataSet = new TrainingData[120];
+        i=0;
+        for(;i<120;i++)
         {
             tDataSet[i] = new TrainingData(input[i],output[i]);
         }        
+   
     }
 
     public static void forward(float[] inputs) {
